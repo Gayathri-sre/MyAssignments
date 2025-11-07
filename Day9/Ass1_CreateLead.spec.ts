@@ -2,10 +2,12 @@
 // Url : "https://login.salesforce.com/" 
 // Username : dilipkumar.rajendran@testleaf.com
 //Password : TestLeaf@2025
+//Execute : npx playwright test Ass1_CreateLead.spec.ts 
+//Debug : npx playwright test Ass1_CreateLead.spec.ts --debug
 
 import {test, expect} from '@playwright/test'
 
-test.beforeEach(async ({ page }) => {
+test.beforeEach(async ({page }) => {
   page.on('dialog', async dialog => await dialog.dismiss());
   page.on('popup', async popup => await popup.close());
 
@@ -49,6 +51,8 @@ test ("Create Lead", async({page})=> {
     //await page.selectOption('button[name="salutation"]')
     //await page.locator('//button[@data-value="Mr."]').click()
     await page.locator("//button[@aria-label='Salutation']").click()
+    await page.locator('//span[@title="Mr."]').click()
+    //console - allow pasting - setTimeout(()=>{debugger;},4000)-freeze the DOM
     //await page.waitForTimeout(5000)
     
     //Enter Last name
@@ -64,7 +68,12 @@ test ("Create Lead", async({page})=> {
     await page.locator('//button[@name="SaveEdit"]').click()
     //await page.waitForTimeout(3000)
 
-    const nameElement = page.locator('//button[@name="SaveEdit"]');
+    const expected = page.locator('//div[contains(text()," was created.")]')
+    await expect(expected).toContainText(" was created.")
+    console.log(`verified ${expected}`)
+    
+
+/*     const nameElement = page.locator('//button[@name="SaveEdit"]');
     await expect(nameElement).toBeVisible();
     console.log(`Name Element ${nameElement}`)
     // Get actual text
@@ -72,6 +81,6 @@ test ("Create Lead", async({page})=> {
     const expvalue="Save"
       
     expect(actvalue).toBe(expvalue)
-    console.log(`Created New Lead ${actvalue}`)
+    console.log(`Created New Lead ${actvalue}`) */
 
-})
+})  

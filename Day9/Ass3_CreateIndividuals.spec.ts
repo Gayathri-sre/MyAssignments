@@ -5,7 +5,7 @@
 
 import {test, expect} from '@playwright/test'
 
-test ("Create Individuals", async({page})=> {
+test("Create Individuals", async({page})=> {
 
     await page.goto("https://login.salesforce.com/")
 
@@ -26,7 +26,7 @@ test ("Create Individuals", async({page})=> {
 
     //Click Individuals from App Launcher - Text based
     await page.locator('//p[text()="Individuals"]').click()
-    await page.waitForTimeout(2000)
+    //await page.waitForTimeout(2000)
 
     //Click on the New Individual tab - Partial and text based
     //await page.locator('(//span[text()="Individuals"])[1]').click()
@@ -34,15 +34,19 @@ test ("Create Individuals", async({page})=> {
     await page.locator('//span[text()="New Individual"]').click()
     //await page.waitForTimeout(2000)
 
-   //Enter Last Name
+    //Enter Last Name
     await page.locator('//input[@placeholder="Last Name"]').fill("Vaidy")
-    await page.waitForTimeout(4000)
+    //await page.waitForTimeout(4000)
 
-    //Click Save and verify Lead name created - Index Based
-    //await page.locator('(//button[text()="Save"])[1]').click()
+    //Click Save and verify Lead name created - Partial Attribute Based    
     await page.locator('//button[contains(@class,"button_neutral uiButton--brand")]').click()
+    //await page.locator('(//button[text()="Save"])[1]').click()
     //await page.waitForTimeout(6000)
 
+    //Freeze and verify
+    const expected = page.locator('//span[@class="toastMessage slds-text-heading--small forceActionsText"]')
+    await expect(expected).toContainText(" was created.")
+    console.log(`verified ${expected}`)
     //const nameElement = page.locator('//lightning-formatted-name | //slot//lightning-formatted-text | //record-header//*[contains(@title,"Test")] | //records-lwc-highlight-panel//slot//span[contains(text(),"Test")]');
     //await nameElement.first().waitFor({ state: 'visible' });
 

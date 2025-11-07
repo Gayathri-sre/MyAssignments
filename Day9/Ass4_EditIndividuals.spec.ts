@@ -67,6 +67,11 @@ test ("Edit Individuals", async({page})=> {
     //Click on Save - Text based
     await page.locator('//span[text()="Save"]').click()
 
+    //Save and verify the First name
+    const expected = page.locator('//span[@class="toastMessage slds-text-heading--small forceActionsText"]')
+    await expect(expected).toContainText(" was created.")
+    console.log(`verified ${expected}`)
+
     /*  const nameElement = page.locator('//input[@placeholder="First Name"]');
         await expect(nameElement).toBeVisible();
         console.log(`Name Element ${nameElement}`)
